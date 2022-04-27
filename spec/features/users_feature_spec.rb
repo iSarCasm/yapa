@@ -33,6 +33,19 @@ describe 'Users', type: :feature do
     expect(page).to have_button 'Sign Out'
   end
 
+  it 'sign in redirects to previous page' do
+    user = create(:user)
+    post = create :post
+
+    visit post_path(post)
+    click_button 'Sign In'
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    click_button 'Log in'
+
+    expect(page).to have_current_path post_path(post)
+  end
+
   it 'can sign-out' do
     user = create(:user)
     sign_in user
