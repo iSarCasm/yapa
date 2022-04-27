@@ -19,11 +19,12 @@
 <% end %>
 
 <hr/>
-<h2>Comments</h2>
-<%= render(@post_presenter.comments) || "No comments yet." %>
+<div id="comments">
+  <h2>Comments</h2>
+  <%= render(@post_presenter.comments) || "No comments yet." %>
 
-<%= paginate @post_presenter.comments %>
-
+  <%= paginate @post_presenter.comments, params: { anchor: 'comments' } %>
+</div>
 <% if current_user %>
   <hr/>
   <%= render "comments/form", comment: @post_presenter.new_comment %>
