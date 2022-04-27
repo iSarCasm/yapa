@@ -49,12 +49,12 @@ describe 'PostPresenter' do
       expect(presenter.comments).to eq([comment1, comment2])
     end
 
-    it 'paginates comments 10 per page' do
+    it 'paginates comments' do
       post = create :post
       comments = create_list :comment, 20, post: post
       presenter = PostPresenter.new post: post
 
-      expect(presenter.comments.size).to eq 10
+      expect(presenter.comments.size).to eq 5
     end
 
     it 'paginates to last page if comments_page is nil' do
@@ -62,7 +62,7 @@ describe 'PostPresenter' do
       comments = create_list :comment, 15, post: post
       presenter = PostPresenter.new post: post
 
-      expect(presenter.comments.current_page).to eq 2
+      expect(presenter.comments.current_page).to eq 3
     end
 
     it 'paginates to comments_page if it is not nil' do
