@@ -1,0 +1,64 @@
+# Query: form-group
+# ContextLines: 1
+
+14 results - 4 files
+
+app/views/devise/registrations/edit.html.erb:
+   5  
+   6:   <div class="mb-3">
+   7      <%= f.label :email %><br />
+
+  10  
+  11:   <div class="mb-3">
+  12      <%= f.label :name %><br />
+
+  19  
+  20:   <div class="mb-3">
+  21      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+
+  28  
+  29:   <div class="mb-3">
+  30      <%= f.label :password_confirmation %><br />
+
+  33  
+  34:   <div class="mb-3">
+  35      <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+
+app/views/devise/registrations/new.html.erb:
+   5  
+   6:   <div class="mb-3">
+   7      <%= f.label :email %><br />
+
+  10  
+  11:   <div class="mb-3">
+  12      <%= f.label :name %><br />
+
+  15  
+  16:   <div class="mb-3">
+  17      <%= f.label :password %>
+
+  23  
+  24:   <div class="mb-3">
+  25      <%= f.label :password_confirmation %><br />
+
+app/views/devise/sessions/_form.html.erb:
+   1  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+   2:   <div class="mb-3">
+   3      <%= f.label :email %><br />
+
+   6  
+   7:   <div class="mb-3">
+   8      <%= f.label :password %><br />
+
+  12    <% if devise_mapping.rememberable? %>
+  13:     <div class="mb-3">
+  14        <%= f.check_box :remember_me %>
+
+app/views/posts/_form.html.erb:
+  14  
+  15:   <div class="mb-3">
+  16      <%= form.label :title %>
+
+  19  
+  20:   <div class="mb-3">
+  21      <%= form.label :body %>
