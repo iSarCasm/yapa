@@ -6,8 +6,17 @@
       <%= link_to current_user.name, edit_user_registration_path, class: "d-inline-block" %>
       <%= button_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'btn btn-danger', form_class: 'd-inline-block' %>
     <% else %>
-      <%= button_to 'Sign In', new_user_session_path, method: :get, class: 'btn btn-primary', form_class: 'd-inline-block' %>
+      <%=
+        button_tag(
+          'Sign In',
+          class: 'btn btn-primary',
+          form_class: 'd-inline-block',
+          data: { 'bs-toggle': 'modal', 'bs-target': '#signInModal' }
+        )
+      %>
       <%= button_to 'Sign Up', new_user_registration_path, method: :get, class: 'btn btn-warning', form_class: 'd-inline-block' %>
     <% end %>
   </div>
 </nav>
+
+<%= render 'devise/sessions/sign_in_modal' %>

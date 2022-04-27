@@ -1,0 +1,13 @@
+<div class="modal" tabindex="-1" id="signInModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Sign In</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <%= render 'devise/sessions/form', resource: User.new, resource_name: :user, devise_mapping: Devise.mappings[:user] %>
+      </div>
+    </div>
+  </div>
+</div>
