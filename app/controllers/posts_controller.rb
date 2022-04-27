@@ -5,12 +5,12 @@ class PostsController < ApplicationController
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.order(created_at: :desc)
+    @posts = Post.order(created_at: :desc).page(params[:page])
   end
 
   # GET /posts/1
   def show
-    @comment = @post.comments.new
+    @post_presenter = PostPresenter.new(post: @post, comments_page: params[:page])
   end
 
   # GET /posts/new

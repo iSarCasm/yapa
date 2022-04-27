@@ -1,29 +1,30 @@
-<h2><%= @post.title %></h2>
+<h2><%= @post_presenter.title %></h2>
 
 <p>
   <strong>Author:</strong>
-  <%= @post.user.name %>
+  <%= @post_presenter.user.name %>
 </p>
 
 <div>
-  <%= simple_format @post.body %>
+  <%= simple_format @post_presenter.body %>
 </div>
 
-<h6 class="text-muted">Posted <%= time_ago_in_words(@post.created_at) %> ago.</h6>
+<h6 class="text-muted">Posted <%= time_ago_in_words(@post_presenter.created_at) %> ago.</h6>
 
-<% if policy(@post).edit? %>
-  <%= link_to 'Edit', edit_post_path(@post) %> |
+<% if policy(@post_presenter.post).edit? %>
+  <%= link_to 'Edit', edit_post_path(@post_presenter.post) %> |
 <% end %>
-<% if policy(@post).destroy? %>
-  <%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' } %>
+<% if policy(@post_presenter.post).destroy? %>
+  <%= link_to 'Destroy', @post_presenter.post, method: :delete, data: { confirm: 'Are you sure?' } %>
 <% end %>
 
 <hr/>
 <h2>Comments</h2>
-<%= render(@post.comments.order(:created_at)) || "No comments yet." %>
+<%= render(@post_presenter.comments) || "No comments yet." %>
 
+<%= paginate @post_presenter.comments %>
 
 <% if current_user %>
   <hr/>
-  <%= render "comments/form", comment: @comment %>
+  <%= render "comments/form", comment: @post_presenter.new_comment %>
 <% end %>

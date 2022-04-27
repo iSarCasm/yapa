@@ -7,3 +7,6 @@
 <hr>
 
 <%= render(partial: @posts, spacer_template: 'posts/post_spacer') || "No posts yet." %>
+
+<hr/>
+<%= paginate @posts %>

@@ -16,6 +16,7 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to post_url(@comment.post), notice: "Comment was successfully created."
     else
+      @post_presenter = PostPresenter.new(post: @post, new_comment: @comment)
       render 'posts/show'
     end
   end
