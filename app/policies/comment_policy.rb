@@ -15,7 +15,7 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    !user.nil?
   end
 
   def update?
