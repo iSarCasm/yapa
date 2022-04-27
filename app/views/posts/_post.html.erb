@@ -1,4 +1,4 @@
-<div>
+<div data-test="post">
   <h2><%= link_to post.title, post_path(post) %></h2>
   <span><b>Author:</b> <%= post.user.name %></span>
   <p><%= truncate(post.body, length: 250) %></p>

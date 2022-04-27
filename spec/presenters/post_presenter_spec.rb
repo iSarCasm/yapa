@@ -13,16 +13,16 @@ describe 'PostPresenter' do
     expect(presenter.body).to eq(post.body)
   end
 
-  it 'delegates user to post' do
-    post = build :post
-    presenter = PostPresenter.new post: post
-    expect(presenter.user).to eq(post.user)
-  end
-
   it 'delegates created_at to post' do
     post = build :post
     presenter = PostPresenter.new post: post
     expect(presenter.created_at).to eq(post.created_at)
+  end
+
+  it '#author returns post author name' do
+    post = build :post
+    presenter = PostPresenter.new post: post
+    expect(presenter.author).to eq(post.user.name)
   end
 
   describe '#new_comment' do

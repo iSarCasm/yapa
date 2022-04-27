@@ -17,14 +17,31 @@ describe 'Posts', type: :feature do
     expect(page).to have_content 'Test Title'
   end
 
-  it 'can see a list of all posts' do
+  it 'can see a list of all posts newest first' do
     create(:post, title: 'Test Title')
     create(:post, title: 'Test Title 2')
 
     visit '/'
 
-    expect(page).to have_content 'Test Title'
-    expect(page).to have_content 'Test Title 2'
+    posts = find_all('div[data-test="post"] h2')
+    expect(posts.map(&:text)).to eq(['Test Title 2', 'Test Title'])
+  end
+
+  it 'can paginate a list of posts' do
+    create_list(:post, 15)
+    latest_post = create :post, title: 'Control Post'
+
+    visit '/'
+
+    expect(page).to have_content 'Control Post'
+
+    click_link 'Next'
+
+    expect(page).to have_no_content 'Control Post'
+
+    click_link 'Prev'
+
+    expect(page).to have_content 'Control Post'
   end
 
   it 'can see a post' do

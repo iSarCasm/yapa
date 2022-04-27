@@ -16,14 +16,31 @@ describe 'Comments', type: :feature do
     expect(page).to have_content 'Test Body'
   end
 
-  it 'can see a list of all comments' do
+  it 'can see a list of all comments oldest first' do
     create(:comment, body: 'Test Comment', post: post)
     create(:comment, body: 'Test Comment 2', post: post)
 
     visit post_path(post)
 
-    expect(page).to have_content 'Test Comment'
-    expect(page).to have_content 'Test Comment 2'
+    comments = find_all('div[data-test="comment"] .card-text')
+    expect(comments.map(&:text)).to eq(['Test Comment', 'Test Comment 2'])
+  end
+
+  it 'can paginate a list of comments' do
+    create_list(:comment, 15, post: post)
+    latest_comment = create :comment, body: 'Control Comment', post: post
+
+    visit post_path(post)
+
+    expect(page).to have_content 'Control Comment'
+
+    click_link 'Prev'
+
+    expect(page).to have_no_content 'Control Comment'
+
+    click_link 'Next'
+
+    expect(page).to have_content 'Control Comment'
   end
 
   context 'as owner of the comment' do

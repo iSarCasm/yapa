@@ -1,12 +1,16 @@
 class PostPresenter
   attr_reader :post, :comments_page, :new_comment
 
-  delegate :title, :body, :user, :created_at, to: :post
+  delegate :title, :body, :created_at, to: :post
 
   def initialize(post:, new_comment: nil, comments_page: nil)
     @post = post
     @comments_page = comments_page
     @new_comment = new_comment || @post.comments.new
+  end
+
+  def author
+    @author ||= post.user.name
   end
 
   def comments
