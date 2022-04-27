@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_comment, only: %i[ edit update destroy ]
   before_action :set_post, only: %i[ create ]
+  before_action :authorize_user!, only: %i[ edit update destroy ]
 
   # GET /comments/1/edit
   def edit
@@ -47,5 +49,9 @@ class CommentsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def comment_params
       params.require(:comment).permit(:body, :user_id, :post_id)
+    end
+
+    def authorize_user!
+      raise ActionController::RoutingError, 'Not Found' unless @comment.user == current_user
     end
 end
