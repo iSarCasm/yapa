@@ -24,6 +24,17 @@ RSpec.describe "/comments", type: :request do
       get edit_post_comment_url(user_post, comment)
       expect(response).to be_successful
     end
+
+    it 'redeirects when unauthenticated' do
+      sign_out user
+      get edit_post_comment_url(user_post, comment)
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it 'returns error when unauthorized' do
+      comment = create :comment
+      expect { get edit_post_comment_url(comment.post, comment) }.to raise_error(Pundit::NotAuthorizedError)
+    end
   end
 
   describe "POST /create" do
@@ -51,6 +62,12 @@ RSpec.describe "/comments", type: :request do
         post post_comments_url(user_post), params: { comment: invalid_attributes }
         expect(response.status).to eq(200)
       end
+    end
+
+    it 'redirects when unauthenticated' do
+      sign_out user
+      post post_comments_url(user_post), params: { comment: valid_attributes }
+      expect(response).to redirect_to(new_user_session_url)
     end
   end
 
@@ -81,6 +98,17 @@ RSpec.describe "/comments", type: :request do
         expect(response.status).to eq 422
       end
     end
+
+    it 'redirects when unauthenticated' do
+      sign_out user
+      patch post_comment_url(user_post, comment)
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it 'returns error when unauthorized' do
+      comment = create :comment
+      expect { patch post_comment_url(comment.post, comment) }.to raise_error(Pundit::NotAuthorizedError)
+    end
   end
 
   describe "DELETE /destroy" do
@@ -94,6 +122,17 @@ RSpec.describe "/comments", type: :request do
     it "redirects to the comments list" do
       delete post_comment_url(user_post, comment)
       expect(response).to redirect_to(post_url(user_post))
+    end
+
+    it 'redirects when unauthenticated' do
+      sign_out user
+      delete post_comment_url(user_post, comment)
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it 'returns error when unauthorized' do
+      comment = create :comment
+      expect { delete post_comment_url(comment.post, comment) }.to raise_error(Pundit::NotAuthorizedError)
     end
   end
 end

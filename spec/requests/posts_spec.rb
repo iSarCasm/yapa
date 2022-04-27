@@ -39,6 +39,12 @@ RSpec.describe "/posts", type: :request do
       get new_post_url
       expect(response).to be_successful
     end
+
+    it 'redirects when unauthenticated' do
+      sign_out user
+      get new_post_url
+      expect(response).to redirect_to(new_user_session_url)
+    end
   end
 
   describe "GET /edit" do
@@ -46,6 +52,18 @@ RSpec.describe "/posts", type: :request do
       post = create :post, user: user
       get edit_post_url(post)
       expect(response).to be_successful
+    end
+
+    it 'redirects when unauthenticated' do
+      sign_out user
+      post = create :post, user: user
+      get edit_post_url(post)
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it 'return error when unauthorized' do
+      post = create :post
+      expect { get edit_post_url(post) }.to raise_error(Pundit::NotAuthorizedError)
     end
   end
 
@@ -74,6 +92,12 @@ RSpec.describe "/posts", type: :request do
         post posts_url, params: { post: invalid_attributes }
         expect(response.status).to eq 422
       end
+    end
+
+    it 'redirects when unauthenticated' do
+      sign_out user
+      post posts_url
+      expect(response).to redirect_to(new_user_session_url)
     end
   end
 
@@ -107,6 +131,18 @@ RSpec.describe "/posts", type: :request do
         expect(response.status).to eq 422
       end
     end
+
+    it 'redirects when unauthenticated' do
+      sign_out user
+      post = create :post, user: user
+      patch post_url(post)
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it 'return error when unauthorized' do
+      post = create :post
+      expect { patch post_url(post) }.to raise_error(Pundit::NotAuthorizedError)
+    end
   end
 
   describe "DELETE /destroy" do
@@ -121,6 +157,18 @@ RSpec.describe "/posts", type: :request do
       post = create :post, user: user
       delete post_url(post)
       expect(response).to redirect_to(posts_url)
+    end
+
+    it 'redirects when unauthenticated' do
+      sign_out user
+      post = create :post, user: user
+      delete post_url(post)
+      expect(response).to redirect_to(new_user_session_url)
+    end
+
+    it 'return error when unauthorized' do
+      post = create :post
+      expect { delete post_url(post) }.to raise_error(Pundit::NotAuthorizedError)
     end
   end
 end
