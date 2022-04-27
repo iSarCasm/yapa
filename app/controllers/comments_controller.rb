@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
   def edit
   end
 
-  # POST /comments or /comments.json
+  # POST /comments
   def create
     @comment = current_user.comments.new(comment_params)
     @comment.post = @post
@@ -20,7 +20,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /comments/1 or /comments/1.json
+  # PATCH/PUT /comments/1
   def update
     if @comment.update(comment_params)
       redirect_to post_url(@comment.post), notice: "Comment was successfully updated."
@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
     end
   end
 
-  # DELETE /comments/1 or /comments/1.json
+  # DELETE /comments/1
   def destroy
     @comment.destroy
 
@@ -37,21 +37,21 @@ class CommentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_comment
-      @comment = Comment.find(params[:id])
-    end
 
-    def set_post
-      @post = Post.find(params[:post_id])
-    end
+  def set_comment
+    @comment = Comment.find(params[:id])
+  end
 
-    # Only allow a list of trusted parameters through.
-    def comment_params
-      params.require(:comment).permit(:body, :user_id, :post_id)
-    end
+  def set_post
+    @post = Post.find(params[:post_id])
+  end
 
-    def authorize_user!
-      raise ActionController::RoutingError, 'Not Found' unless @comment.user == current_user
-    end
+  # Only allow a list of trusted parameters through.
+  def comment_params
+    params.require(:comment).permit(:body, :user_id, :post_id)
+  end
+
+  def authorize_user!
+    authorize @comment
+  end
 end

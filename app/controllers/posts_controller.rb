@@ -8,7 +8,7 @@ class PostsController < ApplicationController
     @posts = Post.order(created_at: :desc)
   end
 
-  # GET /posts/1 or /posts/1.json
+  # GET /posts/1
   def show
     @comment = @post.comments.new
   end
@@ -33,7 +33,7 @@ class PostsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /posts/1 or /posts/1.json
+  # PATCH/PUT /posts/1
   def update
     if @post.update(post_params)
       redirect_to post_url(@post), notice: "Post was successfully updated."
@@ -42,7 +42,7 @@ class PostsController < ApplicationController
     end
   end
 
-  # DELETE /posts/1 or /posts/1.json
+  # DELETE /posts/1
   def destroy
     @post.destroy
 
@@ -50,17 +50,17 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def post_params
-      params.require(:post).permit(:body, :title, :user_id)
-    end
+  def set_post
+    @post = Post.find(params[:id])
+  end
 
-    def authorize_user!
-      raise ActionController::RoutingError, 'Not Found' unless @post.user == current_user
-    end
+  # Only allow a list of trusted parameters through.
+  def post_params
+    params.require(:post).permit(:body, :title, :user_id)
+  end
+
+  def authorize_user!
+    authorize @post
+  end
 end
