@@ -10,7 +10,7 @@
 #  updated_at :datetime         not null
 #
 class Post < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, required: true
 
   has_many :comments, dependent: :destroy
 
