@@ -17,8 +17,8 @@
 
 <hr/>
 <h2>Comments</h2>
-<%= render(@comments) || "No comments yet." %>
+<%= render(@post.comments.order(:created_at)) || "No comments yet." %>
 
 <hr/>
 
-<%= render "comments/form", comment: @new_comment %>
+<%= render "comments/form", comment: @comment %>

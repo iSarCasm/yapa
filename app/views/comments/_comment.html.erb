@@ -3,7 +3,7 @@
     <h5 class="card-title"><%= comment.user.name %></h5>
     <h6 class="card-subtitle mb-2 text-muted">Posted <%= time_ago_in_words(comment.created_at) %> ago.</h6>
     <p class="card-text"><%= comment.body %></p>
-    <%= link_to 'Edit', edit_comment_path(comment) %> |
-    <%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= link_to 'Edit', edit_post_comment_path(comment.post, comment) %> |
+    <%= link_to 'Destroy', post_comment_path(comment.post, comment), method: :delete, data: { confirm: 'Are you sure?' } %>
   </div>
 </div>

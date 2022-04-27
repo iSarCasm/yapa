@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :set_comment, only: %i[ edit update destroy ]
+  before_action :set_post, only: %i[ create ]
 
   # GET /comments/1/edit
   def edit
@@ -8,28 +9,21 @@ class CommentsController < ApplicationController
   # POST /comments or /comments.json
   def create
     @comment = current_user.comments.new(comment_params)
+    @comment.post = @post
 
-    respond_to do |format|
-      if @comment.save
-        format.html { redirect_to post_url(@comment.post), notice: "Comment was successfully created." }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    if @comment.save
+      redirect_to post_url(@comment.post), notice: "Comment was successfully created."
+    else
+      render 'posts/show'
     end
   end
 
   # PATCH/PUT /comments/1 or /comments/1.json
   def update
-    respond_to do |format|
-      if @comment.update(comment_params)
-        format.html { redirect_to post_url(@comment.post), notice: "Comment was successfully updated." }
-        format.json { render :show, status: :ok, location: @comment }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    if @comment.update(comment_params)
+      redirect_to post_url(@comment.post), notice: "Comment was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
@@ -37,16 +31,17 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy
 
-    respond_to do |format|
-      format.html { redirect_to @comment.post, notice: "Comment was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to @comment.post, notice: "Comment was successfully destroyed."
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
       @comment = Comment.find(params[:id])
+    end
+
+    def set_post
+      @post = Post.find(params[:post_id])
     end
 
     # Only allow a list of trusted parameters through.
