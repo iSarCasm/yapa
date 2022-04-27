@@ -17,6 +17,16 @@ describe 'Posts', type: :feature do
     expect(page).to have_content 'Test Title'
   end
 
+  it 'shows validation errors' do
+    visit '/'
+    click_button 'New Post'
+    fill_in 'Title', with: 'T'
+    fill_in 'Body', with: 'Test Body 10 char min'
+    click_button 'Submit'
+
+    expect(page).to have_content 'Title is too short'
+  end
+
   it 'can see a list of all posts newest first' do
     create(:post, title: 'Test Title')
     create(:post, title: 'Test Title 2')

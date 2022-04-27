@@ -16,6 +16,14 @@ describe 'Comments', type: :feature do
     expect(page).to have_content 'Test Body'
   end
 
+  it 'shows validation errors' do
+    visit post_path(post)
+    fill_in 'comment_body', with: 'T'
+    click_button 'Submit'
+
+    expect(page).to have_content 'Body is too short'
+  end
+
   it 'can see a list of all comments oldest first' do
     create(:comment, body: 'Test Comment', post: post)
     create(:comment, body: 'Test Comment 2', post: post)
