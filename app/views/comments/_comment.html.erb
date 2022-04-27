@@ -1,7 +1,9 @@
-<div>
-  <h3>Author: <%= comment.user.name %></h3>
-
-  <p><%= comment.body %></p>
-
-  <span>Posted <%= time_ago_in_words(comment.created_at) %> ago<span>
+<div class="card" style="margin: 10px 0">
+  <div class="card-body">
+    <h5 class="card-title"><%= comment.user.name %></h5>
+    <h6 class="card-subtitle mb-2 text-muted">Posted <%= time_ago_in_words(comment.created_at) %> ago.</h6>
+    <p class="card-text"><%= comment.body %></p>
+    <%= link_to 'Edit', edit_comment_path(comment) %> |
+    <%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %>
+  </div>
 </div>

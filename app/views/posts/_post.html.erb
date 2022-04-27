@@ -1,7 +1,7 @@
 <div>
   <h2><%= link_to post.title, post_path(post) %></h2>
-  <span>by <%= post.user.name %></span>
+  <span><b>Author:</b> <%= post.user.name %></span>
   <p><%= truncate(post.body, length: 250) %></p>
 
-  <span>Posted <%= time_ago_in_words(post.created_at) %> ago<span>
+  <span class="text-muted">Posted <%= time_ago_in_words(post.created_at) %> ago<span>
 </div>
