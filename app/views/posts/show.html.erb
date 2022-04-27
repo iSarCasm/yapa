@@ -17,8 +17,8 @@
 
 <hr/>
 <h2>Comments</h2>
-<%= render(@post.comments) || "No comments yet." %>
+<%= render(@comments) || "No comments yet." %>
 
 <hr/>
 
-<%= render "comments/form", comment: @comment %>
+<%= render "comments/form", comment: @new_comment %>
